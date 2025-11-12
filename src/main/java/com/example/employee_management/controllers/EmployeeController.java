@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.employee_management.dto.EmployeeDTO;
 import com.example.employee_management.services.EmployeeService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -34,13 +36,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeDTO> create(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO> create(@Valid @RequestBody EmployeeDTO employeeDTO) {
         EmployeeDTO createdEmployee = employeeService.create(employeeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployee);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> update(@PathVariable Long id, @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO> update(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
         EmployeeDTO updatedEmployee = employeeService.update(id, employeeDTO);
         return ResponseEntity.ok(updatedEmployee);
     }
@@ -52,8 +54,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<EmployeeDTO>> search(@RequestParam String name) {
-        List<EmployeeDTO> employees = employeeService.searchByName(name);
+    public ResponseEntity<EmployeeDTO> search(@RequestParam String name) {
+        EmployeeDTO employees = employeeService.searchByName(name);
         return ResponseEntity.ok(employees);
     }
 }

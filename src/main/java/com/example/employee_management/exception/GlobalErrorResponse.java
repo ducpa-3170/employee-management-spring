@@ -1,18 +1,16 @@
 package com.example.employee_management.exception;
 
+import java.util.List;
+
 public class GlobalErrorResponse {
     private int status;
     private String message;
     private long timeStamp;
+    private List<String> errors;
+    private String path;
 
     public GlobalErrorResponse() {
 
-    }
-
-    public GlobalErrorResponse(int status, String message, long timeStamp) {
-        this.status = status;
-        this.message = message;
-        this.timeStamp = timeStamp;
     }
 
     public int getStatus() {
@@ -37,5 +35,21 @@ public class GlobalErrorResponse {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public List<String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(List<String> errors) {
+        this.errors = errors;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

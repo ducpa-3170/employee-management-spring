@@ -59,15 +59,13 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public List<EmployeeDTO> searchByName(String name) {
-        List<Employee> employees = employeeRepository.findByNameContainingIgnoreCase(name);
+    public EmployeeDTO searchByName(String name) {
+        Employee employee = employeeRepository.findByNameContainingIgnoreCase(name);
 
-        if (employees.isEmpty()) {
-            throw new EmployeeNotFoundException("No employees found with name containing: " + name);
+        if (employee == null) {
+            throw new EmployeeNotFoundException("Employee not found with name containing: " + name);
         }
 
-        return employees.stream()
-                .map(this::convertToDTO)
-                .toList();
+        return convertToDTO(employee);
     }
 }
