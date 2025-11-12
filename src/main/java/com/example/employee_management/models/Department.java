@@ -35,6 +35,10 @@ public class Department {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Employee> employees;
 }

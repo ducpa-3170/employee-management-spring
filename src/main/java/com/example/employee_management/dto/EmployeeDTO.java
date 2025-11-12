@@ -19,14 +19,17 @@ public class EmployeeDTO {
     @Email(message = "Email should be valid")
     private String email;
 
+    private Long departmentId;
+
     // Constructors
     public EmployeeDTO() {
     }
 
-    public EmployeeDTO(Long id, String name, String email) {
+    public EmployeeDTO(Long id, String name, String email, Long departmentId) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.departmentId = departmentId;
     }
 
     // Getters and Setters
@@ -52,5 +55,13 @@ public class EmployeeDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
     }
 }
