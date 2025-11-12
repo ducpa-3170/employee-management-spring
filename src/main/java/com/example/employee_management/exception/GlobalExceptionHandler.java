@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(EmployeeNotFoundException.class)
-    public ResponseEntity<GlobalErrorResponse> handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<GlobalErrorResponse> handleNotFoundException(NotFoundException ex) {
         GlobalErrorResponse errorResponse = new GlobalErrorResponse();
 
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
