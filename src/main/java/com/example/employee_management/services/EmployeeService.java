@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.employee_management.dto.EmployeeDTO;
+import com.example.employee_management.exception.EmployeeNotFoundException;
 import com.example.employee_management.models.Employee;
 import com.example.employee_management.repositories.EmployeeRepository;
 
@@ -40,7 +41,7 @@ public class EmployeeService {
 
     public EmployeeDTO update(Long id, EmployeeDTO employeeDTO) {
         Employee existingEmployee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
 
         if (employeeDTO.getName() != null) {
             existingEmployee.setName(employeeDTO.getName());
@@ -56,5 +57,17 @@ public class EmployeeService {
 
     public void delete(Long id) {
         employeeRepository.deleteById(id);
+    }
+
+    public List<EmployeeDTO> searchByName(String name) {
+        List<Employee> employees = employeeRepository.findByNameContainingIgnoreCase(name);
+
+        if (employees.isEmpty()) {
+            throw new EmployeeNotFoundException("No employees found with name containing: " + name);
+        }
+
+        return employees.stream()
+                .map(this::convertToDTO)
+                .toList();
     }
 }
