@@ -12,6 +12,6 @@ public class DemoController {
 
         model.addAttribute("greeting", greeting);
 
-        return "index";
+        return "pages/employee/index";
     }
 }

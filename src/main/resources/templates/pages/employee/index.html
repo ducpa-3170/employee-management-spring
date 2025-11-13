@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{layout/base}">
+
+<head>
+ <title layout:title-append=" | Employee List"></title>
+ <th:block layout:fragment="custom-css">
+ </th:block>
+</head>
+
+<body>
+
+ <th:block layout:fragment="content">
+
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+   <h1 class="h3 mb-0 text-gray-800">Employee Management</h1>
+  </div>
+
+  <div class="row">
+   <div class="col-12">
+    <div class="card shadow mb-4">
+     <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">List Employees</h6>
+     </div>
+     <div class="card-body">
+      <div class="table-responsive">
+       <table class="table table-bordered table-hover" id="employeeTable" width="100%" cellspacing="0">
+        <thead>
+         <tr class="bg-light">
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+         </tr>
+        </thead>
+        <tbody>
+
+         <tr th:each="emp : ${employees}">
+
+          <td th:text="${emp.id}"></td>
+          <td th:text="${emp.name}"></td>
+          <td th:text="${emp.email}"></td>
+          <td>
+           <a href="#" class="btn btn-sm btn-info">Edit</a>
+           <a href="#" class="btn btn-sm btn-danger">Delete</a>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </th:block>
+
+ <th:block layout:fragment="custom-scripts">
+ </th:block>
+
+</body>
+
+</html>
