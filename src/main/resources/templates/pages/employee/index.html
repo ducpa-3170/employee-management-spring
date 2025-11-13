@@ -14,6 +14,29 @@
 
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
    <h1 class="h3 mb-0 text-gray-800">Employee Management</h1>
+   <a th:href="@{/admin/employees/create}" class="btn btn-primary btn-icon-split">
+    <span class="icon text-white-50">
+     <i class="fas fa-plus"></i>
+    </span>
+    <span class="text">Add Employee</span>
+   </a>
+  </div>
+
+  <!-- Alert Messages -->
+  <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+   <i class="fas fa-check-circle"></i>
+   <span th:text="${successMessage}"></span>
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+   </button>
+  </div>
+
+  <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+   <i class="fas fa-exclamation-triangle"></i>
+   <span th:text="${errorMessage}"></span>
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+   </button>
   </div>
 
   <div class="row">
