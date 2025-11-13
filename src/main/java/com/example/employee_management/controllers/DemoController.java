@@ -1,12 +1,17 @@
 package com.example.employee_management.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 
-@RestController
+@Controller
 public class DemoController {
     @GetMapping("/hello")
-    public String sayHello() {
-        return "Hello, World!";
+    public String sayHello(Model model) {
+        String greeting = "Hello, World!";
+
+        model.addAttribute("greeting", greeting);
+
+        return "index";
     }
 }
