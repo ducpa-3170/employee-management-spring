@@ -10,4 +10,10 @@ import com.example.employee_management.models.Employee;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     List<Employee> findByNameContainingIgnoreCase(String name);
+
+    @Query("SELECT e FROM Employee e LEFT JOIN e.department d " +
+            "WHERE :keyword IS NULL " +
+            "OR LOWER(e.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(d.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Employee> searchByKeyword(@Param("keyword") String keyword);
 }
