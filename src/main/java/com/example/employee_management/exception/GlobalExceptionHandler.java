@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -36,5 +38,19 @@ public class GlobalExceptionHandler {
 
         errorResponse.setErrors(errors);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleInternalServerError(Exception ex, HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("pages/500");
+        modelAndView.addObject("message", "Internal Server Error");
+        modelAndView.addObject("details", ex.getMessage());
+        modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        // Log error for debugging
+        System.err.println("Internal Server Error at " + request.getRequestURI());
+        ex.printStackTrace();
+
+        return modelAndView;
     }
 }
