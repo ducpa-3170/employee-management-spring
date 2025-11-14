@@ -64,9 +64,9 @@
         <label for="email" class="font-weight-bold">
          Email Address <span class="text-danger">*</span>
         </label>
+        <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter email address">
         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback d-sm-block">
         </div>
-        <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter email address">
         <small class="form-text text-muted">
          Please enter a valid email address (maximum 100 characters)
         </small>
