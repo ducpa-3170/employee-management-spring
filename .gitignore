@@ -34,3 +34,7 @@ build/
 .editorconfig
 
 .DS_Store
+
+### Logs ###
+logs/
+*.log
