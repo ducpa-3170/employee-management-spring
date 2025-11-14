@@ -26,13 +26,13 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/admin/employees")
-public class AdminEmployeeController {
-    private static final Logger logger = LoggerFactory.getLogger(AdminEmployeeController.class);
+public class EmployeeController {
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     private final EmployeeService employeeService;
     private final DepartmentService departmentService;
 
-    public AdminEmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
+    public EmployeeController(EmployeeService employeeService, DepartmentService departmentService) {
         this.employeeService = employeeService;
         this.departmentService = departmentService;
     }

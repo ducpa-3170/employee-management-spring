@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/auth/login")
+                        .usernameParameter("email")
                         .loginProcessingUrl("/auth/login")
                         .defaultSuccessUrl("/dashboard", true)
                         .failureUrl("/auth/login?error=true")

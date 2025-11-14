@@ -61,4 +61,8 @@ public class UserDTO {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    public String getRoleName() {
+        return role != null ? role.name() : "";
+    }
 }
