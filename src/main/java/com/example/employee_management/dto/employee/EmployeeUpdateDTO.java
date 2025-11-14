@@ -1,38 +1,27 @@
-package com.example.employee_management.dto;
+package com.example.employee_management.dto.employee;
 
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class EmployeeDTO {
+public class EmployeeUpdateDTO {
+    @NotNull
     private Long id;
 
-    @NotNull(message = "Name is mandatory")
-    @NotBlank(message = "Name cannot be blank")
-    @Size(max = 100, message = "Name cannot exceed 100 characters")
+    @NotBlank(message = "Tên không được để trống.")
+    @Size(max = 100, message = "Tên không được quá 100 ký tự.")
     private String name;
 
-    @NotNull(message = "Email is mandatory")
-    @NotBlank(message = "Email cannot be blank")
-    @Size(max = 100, message = "Email cannot exceed 100 characters")
-    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email không được để trống.")
+    @Email(message = "Email không hợp lệ.")
     private String email;
 
     private Long departmentId;
 
-    // Constructors
-    public EmployeeDTO() {
+    public EmployeeUpdateDTO() {
     }
 
-    public EmployeeDTO(Long id, String name, String email, Long departmentId) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.departmentId = departmentId;
-    }
-
-    // Getters and Setters
     public Long getId() {
         return id;
     }

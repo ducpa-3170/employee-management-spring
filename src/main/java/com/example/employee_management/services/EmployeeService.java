@@ -5,7 +5,9 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.example.employee_management.dto.EmployeeDTO;
+import com.example.employee_management.dto.employee.EmployeeCreateDTO;
+import com.example.employee_management.dto.employee.EmployeeDTO;
+import com.example.employee_management.dto.employee.EmployeeUpdateDTO;
 import com.example.employee_management.exception.NotFoundException;
 import com.example.employee_management.models.Department;
 import com.example.employee_management.models.Employee;
@@ -29,6 +31,7 @@ public class EmployeeService extends AbstractService {
 
         if (employee.getDepartment() != null) {
             employeeDTO.setDepartmentId(employee.getDepartment().getId());
+            employeeDTO.setDepartmentName(employee.getDepartment().getName());
         }
 
         return employeeDTO;
@@ -42,13 +45,27 @@ public class EmployeeService extends AbstractService {
                 .toList();
     }
 
-    public EmployeeDTO create(EmployeeDTO employeeDTO) {
-        Employee employee = convertToEntity(employeeDTO, Employee.class);
+    public List<EmployeeDTO> search(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return getAll();
+        }
 
-        if (employeeDTO.getDepartmentId() != null) {
-            Department department = departmentRepository.findById(employeeDTO.getDepartmentId())
+        String searchKeyword = keyword.trim();
+
+        List<Employee> employees = employeeRepository.searchByKeyword(searchKeyword);
+
+        return employees.stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    public EmployeeDTO create(EmployeeCreateDTO employeeCreateDTO) {
+        Employee employee = convertToEntity(employeeCreateDTO, Employee.class);
+
+        if (employeeCreateDTO.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(employeeCreateDTO.getDepartmentId())
                     .orElseThrow(() -> new NotFoundException(
-                            "Department not found with id: " + employeeDTO.getDepartmentId()));
+                            "Department not found with id: " + employeeCreateDTO.getDepartmentId()));
             employee.setDepartment(department);
         }
 
@@ -57,22 +74,22 @@ public class EmployeeService extends AbstractService {
         return convertToDto(savedEmployee);
     }
 
-    public EmployeeDTO update(Long id, EmployeeDTO employeeDTO) {
+    public EmployeeDTO update(Long id, EmployeeUpdateDTO employeeUpdateDTO) {
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found"));
 
-        if (employeeDTO.getName() != null) {
-            existingEmployee.setName(employeeDTO.getName());
+        if (employeeUpdateDTO.getName() != null) {
+            existingEmployee.setName(employeeUpdateDTO.getName());
         }
 
-        if (employeeDTO.getEmail() != null) {
-            existingEmployee.setEmail(employeeDTO.getEmail());
+        if (employeeUpdateDTO.getEmail() != null) {
+            existingEmployee.setEmail(employeeUpdateDTO.getEmail());
         }
 
-        if (employeeDTO.getDepartmentId() != null) {
-            Department department = departmentRepository.findById(employeeDTO.getDepartmentId())
+        if (employeeUpdateDTO.getDepartmentId() != null) {
+            Department department = departmentRepository.findById(employeeUpdateDTO.getDepartmentId())
                     .orElseThrow(() -> new NotFoundException(
-                            "Department not found with id: " + employeeDTO.getDepartmentId()));
+                            "Department not found with id: " + employeeUpdateDTO.getDepartmentId()));
             existingEmployee.setDepartment(department);
         }
 
@@ -94,5 +111,12 @@ public class EmployeeService extends AbstractService {
         return employees.stream()
                 .map(this::convertToDto)
                 .toList();
+    }
+
+    public EmployeeDTO getById(Long id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
+
+        return convertToDto(employee);
     }
 }

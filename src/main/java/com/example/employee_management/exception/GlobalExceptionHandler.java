@@ -6,21 +6,22 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
-@RestControllerAdvice
+import jakarta.servlet.http.HttpServletRequest;
+
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<GlobalErrorResponse> handleNotFoundException(NotFoundException ex) {
-        GlobalErrorResponse errorResponse = new GlobalErrorResponse();
-
-        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
-        errorResponse.setMessage(ex.getMessage());
-        errorResponse.setTimeStamp(System.currentTimeMillis());
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    public ModelAndView handleNotFoundException(NotFoundException ex) {
+        ModelAndView modelAndView = new ModelAndView("pages/404");
+        modelAndView.addObject("message", "Resource Not Found");
+        modelAndView.addObject("details", ex.getMessage());
+        modelAndView.setStatus(HttpStatus.NOT_FOUND);
+        return modelAndView;
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -37,5 +38,19 @@ public class GlobalExceptionHandler {
 
         errorResponse.setErrors(errors);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleInternalServerError(Exception ex, HttpServletRequest request) {
+        ModelAndView modelAndView = new ModelAndView("pages/500");
+        modelAndView.addObject("message", "Internal Server Error");
+        modelAndView.addObject("details", ex.getMessage());
+        modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        // Log error for debugging
+        System.err.println("Internal Server Error at " + request.getRequestURI());
+        ex.printStackTrace();
+
+        return modelAndView;
     }
 }
