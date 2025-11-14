@@ -12,7 +12,7 @@
 
  <th:block layout:fragment="content">
 
-  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4" sec:authorize="hasRole('ADMIN')">
    <h1 class="h3 mb-0 text-gray-800">Employee Management</h1>
    <a th:href="@{/admin/employees/create}" class="btn btn-primary btn-icon-split">
     <span class="icon text-white-50">
@@ -73,7 +73,7 @@
           <th>Name</th>
           <th>Email</th>
           <th>Department</th>
-          <th>Actions</th>
+          <th sec:authorize="hasRole('ADMIN')">Actions</th>
          </tr>
         </thead>
         <tbody>
@@ -84,7 +84,7 @@
           <td th:text="${emp.name}"></td>
           <td th:text="${emp.email}"></td>
           <td th:text="${emp.departmentName}"></td>
-          <td>
+          <td sec:authorize="hasRole('ADMIN')">
            <a th:href="@{/admin/employees/edit/{id}(id=${emp.id})}" class="btn btn-sm btn-info">Edit</a>
 
            <div class="d-inline">

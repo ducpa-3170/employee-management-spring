@@ -45,12 +45,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz -> authz
                         // Public endpoints
                         .requestMatchers("/auth/login", "/auth/register", "/css/**", "/js/**", "/img/**", "/vendor/**",
-                                "/scss/**", "/favicon.ico", "/favicon.svg")
+                                "/scss/**", "/favicon.ico", "/favicon.svg", "/error", "/access-denied")
                         .permitAll()
-                        // Admin endpoints
+                        // Employee list - accessible by all authenticated users (including USER role)
+                        .requestMatchers("/admin/employees").hasAnyRole("ADMIN", "USER")
+                        // Admin endpoints - full CRUD
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        // Manager endpoints
-                        .requestMatchers("/manager/**").hasAnyRole("ADMIN", "MANAGER")
                         // All other requests require authentication
                         .anyRequest().authenticated())
                 .formLogin(form -> form
