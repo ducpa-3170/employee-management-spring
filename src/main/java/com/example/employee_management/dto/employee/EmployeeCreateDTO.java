@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class EmployeeCreateDTO {
-    @NotBlank(message = "Tên không được để trống.")
-    @Size(max = 100, message = "Tên không được quá 100 ký tự.")
+    @NotBlank(message = "Name cannot be blank.")
+    @Size(max = 100, message = "Name cannot exceed 100 characters.")
     private String name;
 
-    @NotBlank(message = "Email không được để trống.")
-    @Email(message = "Email không hợp lệ.")
+    @NotBlank(message = "Email cannot be blank.")
+    @Email(message = "Email is invalid.")
     private String email;
 
     private Long departmentId;
