@@ -124,4 +124,8 @@ public class EmployeeService extends AbstractService {
     public List<DepartmentStatisticsDTO> getDepartmentStatistics() {
         return employeeRepository.countEmployeesByDepartment();
     }
+
+    public Long getTotalEmployees() {
+        return employeeRepository.count();
+    }
 }

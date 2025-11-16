@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.employee_management.dto.employee.DepartmentStatisticsDTO;
+import com.example.employee_management.dto.employee.TotalEmployeeDTO;
 import com.example.employee_management.services.EmployeeService;
 
 @RestController
@@ -24,5 +25,12 @@ public class StatisticsController {
     public ResponseEntity<List<DepartmentStatisticsDTO>> getEmployeesByDepartment() {
         List<DepartmentStatisticsDTO> statistics = employeeService.getDepartmentStatistics();
         return ResponseEntity.ok(statistics);
+    }
+
+    @GetMapping("/total-employees")
+    public ResponseEntity<TotalEmployeeDTO> getTotalEmployees() {
+        Long totalEmployees = employeeService.getTotalEmployees();
+        TotalEmployeeDTO response = new TotalEmployeeDTO(totalEmployees);
+        return ResponseEntity.ok(response);
     }
 }
