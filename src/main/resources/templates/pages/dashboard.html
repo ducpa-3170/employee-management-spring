@@ -18,6 +18,23 @@
   </div>
 
   <div class="row">
+   <div class="col-xl-12 col-lg-12">
+    <div class="card shadow mb-4">
+     <!-- Card Header - Dropdown -->
+     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary">Statistics of employee count by department</h6>
+     </div>
+     <!-- Card Body -->
+     <div class="card-body">
+      <div class="chart-bar">
+       <canvas id="departmentChart"></canvas>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <div class="row">
    <div class="col-xl-3 col-md-6 mb-4">
    </div>
   </div>
@@ -41,6 +58,76 @@
  </th:block>
 
  <th:block layout:fragment="custom-scripts">
+  <script>
+   // Load department statistics data
+   fetch('/api/statistics/employees-by-department')
+    .then(response => response.json())
+    .then(data => {
+     // Generate dynamic colors for each department
+     const colors = [
+      'rgba(255, 99, 132, 0.7)',
+      'rgba(255, 159, 64, 0.7)',
+      'rgba(255, 205, 86, 0.7)',
+      'rgba(75, 192, 192, 0.7)',
+      'rgba(54, 162, 235, 0.7)',
+      'rgba(153, 102, 255, 0.7)',
+      'rgba(201, 203, 207, 0.7)'
+     ];
+
+     const borderColors = [
+      'rgb(255, 99, 132)',
+      'rgb(255, 159, 64)',
+      'rgb(255, 205, 86)',
+      'rgb(75, 192, 192)',
+      'rgb(54, 162, 235)',
+      'rgb(153, 102, 255)',
+      'rgb(201, 203, 207)'
+     ];
+
+     // Create datasets - mỗi phòng ban là một dataset riêng
+     const datasets = data.map((item, index) => ({
+      label: item.departmentName,
+      data: [item.employeeCount],
+      backgroundColor: colors[index % colors.length],
+      borderColor: borderColors[index % borderColors.length],
+      borderWidth: 1,
+     }));
+
+     // Create the bar chart
+     const ctx = document.getElementById('departmentChart').getContext('2d');
+     new Chart(ctx, {
+      type: 'bar',
+      data: {
+       labels: ['Employee Count'],
+       datasets: datasets
+      },
+      options: {
+       responsive: true,
+       maintainAspectRatio: false,
+       legend: {
+        display: true,
+        position: 'top',
+        labels: {
+         fontSize: 12,
+         padding: 15,
+         usePointStyle: true
+        }
+       },
+       scales: {
+        yAxes: [{
+         ticks: {
+          beginAtZero: true,
+          precision: 0
+         },
+        }],
+       },
+      }
+     });
+    })
+    .catch(error => {
+     console.error('Error loading department statistics:', error);
+    });
+  </script>
  </th:block>
 
 </body>

@@ -1,4 +1,4 @@
-package com.example.employee_management.controllers;
+package com.example.employee_management.controllers.api;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

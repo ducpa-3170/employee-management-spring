@@ -5,6 +5,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.example.employee_management.dto.employee.DepartmentStatisticsDTO;
 import com.example.employee_management.dto.employee.EmployeeCreateDTO;
 import com.example.employee_management.dto.employee.EmployeeDTO;
 import com.example.employee_management.dto.employee.EmployeeUpdateDTO;
@@ -118,5 +119,9 @@ public class EmployeeService extends AbstractService {
                 .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
 
         return convertToDto(employee);
+    }
+
+    public List<DepartmentStatisticsDTO> getDepartmentStatistics() {
+        return employeeRepository.countEmployeesByDepartment();
     }
 }
