@@ -28,8 +28,6 @@ public class DepartmentService extends AbstractService {
 
     public DepartmentDTO create(DepartmentDTO departmentDTO) {
         Department department = convertToEntity(departmentDTO, Department.class);
-        System.out.println("Creating Department: " + department.getName());
-
 
         Department savedDepartment = departmentRepository.save(department);
 

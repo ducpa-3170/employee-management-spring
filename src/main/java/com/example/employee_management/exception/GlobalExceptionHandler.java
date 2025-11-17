@@ -47,10 +47,6 @@ public class GlobalExceptionHandler {
         modelAndView.addObject("details", ex.getMessage());
         modelAndView.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        // Log error for debugging
-        System.err.println("Internal Server Error at " + request.getRequestURI());
-        ex.printStackTrace();
-
         return modelAndView;
     }
 }

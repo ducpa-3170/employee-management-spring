@@ -35,7 +35,6 @@ public class DepartmentController {
 
     @PostMapping
     public ResponseEntity<DepartmentDTO> create(@RequestBody DepartmentDTO departmentDTO) {
-        System.out.println("Received DepartmentDTO: " + departmentDTO.getName());
         DepartmentDTO createdDepartment = departmentService.create(departmentDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDepartment);
     }
