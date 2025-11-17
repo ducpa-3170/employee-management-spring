@@ -3,6 +3,7 @@ package com.example.employee_management.services;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.example.employee_management.dto.employee.DepartmentStatisticsDTO;
@@ -125,6 +126,7 @@ public class EmployeeService extends AbstractService {
         return employeeRepository.countEmployeesByDepartment();
     }
 
+    @Cacheable(value = "totalEmployees", unless = "#result == null")
     public Long getTotalEmployees() {
         return employeeRepository.count();
     }

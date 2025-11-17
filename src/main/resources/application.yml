@@ -1,3 +1,18 @@
 spring:
   profiles:
     default: dev
+  cache:
+    type: caffeine
+    caffeine:
+      spec: expireAfterWrite=60s
+    cache-names:
+      - totalEmployees
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,caches
+  endpoint:
+    health:
+      show-details: always
